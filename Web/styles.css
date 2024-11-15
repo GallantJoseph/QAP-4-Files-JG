@@ -1,0 +1,9 @@
+* {
+  box-sizing: border-box;
+}
+
+#mainbox {
+  width: 1000px;
+  margin: auto;
+  background-color: lightblue;
+}
