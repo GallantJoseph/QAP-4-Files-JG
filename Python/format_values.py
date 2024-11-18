@@ -41,3 +41,10 @@ def FormatDateL(date):
     formDateL = DT.datetime.strftime(date, "%d %B, %Y")
 
     return formDateL
+
+def FormatDollar2(dollarValue):
+    # Function that formats a numeric value to a dollar format: $#,###.##.
+
+    formDollar = "${:,.2f}".format(dollarValue)
+
+    return formDollar

@@ -247,9 +247,9 @@ def OneStopInsuranceCompany():
     pmntType = "Full"
 
 def ProcessClaim():
-    # Function that processes a claim. Returns the claim information entered as a list: [claimNumber, claimDate, claimAmt].
+    # Function that processes a claim. Returns the claim information entered as a list: [claimNum, claimDate, claimAmt].
 
-    # Validate the claimNumber
+    # Validate the claimNum
     while True:
         claimNum = input("Please enter the claim number (#####): ")
 
@@ -315,21 +315,38 @@ def ProcessClaim():
 
     return [claimNum, claimDate, claimAmt]
 
+def PrintClaims(claimsLst):
+    # Function that prints out all the claims from a claimsLst. Input as [claimNum, claimDate, claimAmt].
+
+    # Print the header
+
+    print()
+    print(f"      Previous claims listing      ")
+    print(f"===================================")
+    print()
+    print(f"Claim #   Claim Date         Amount")
+    print(f"-----------------------------------")
+
+    for claim in claimsLst:
+        claimNum = claim[0]
+        claimDate = claim[1]
+        claimAmt = claim[2]
+
+        print(f" {claimNum:<5s}    {FV.FormatDateS(claimDate):>10s}     {FV.FormatDollar2(claimAmt):>10s}")
+
+    print()
 
 
 def IsValidPostalCode(postalCode):
     # Function that validates a postal code with no spacing (X#X#X#).
 
     # Define the constants
-    UPPER_LETTER_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-    postalCode = postalCode.upper()
 
     # Check if the character in every position is correct.
     validPostalCode = True
-    for i in range(1, 6):
+    for i in range(0, 6):
         if i % 2 == 0: # even position (letter)
-            if not set(postalCode[i]).issubset(UPPER_LETTER_CHARS):
+            if not postalCode[i].isalpha():
                 validPostalCode = False
                 break
         else: # odd position (digit)

@@ -8,10 +8,13 @@ import one_stop_functions as OSF
 # Main program loop.
 while True:
 
-    # OSF.OneStopInsuranceCompany()
+    # Define the variables
+    claimsLst = []
+
+    OSF.OneStopInsuranceCompany()
 
     while True:
-        OSF.ProcessClaim()
+        claimsLst.append(OSF.ProcessClaim())
 
         # Validate option to process another claim
         while True:
@@ -30,6 +33,8 @@ while True:
 
         if claimOpt == "N":
             break
+    
+    OSF.PrintClaims(claimsLst)
 
     # Validate option to run the program again.
     while True:
