@@ -1,4 +1,4 @@
-# Desc.: Functions needed for the One Stop Insurance Company main program.
+# Desc.: Functions needed by the One Stop Insurance Company main program.
 # Author: Joseph Gallant
 # Dates: Nov. 15 2024 - 
 
@@ -147,7 +147,11 @@ def OneStopInsuranceCompany():
     while True:
         extraLiabCovOpt = input("Extra liability coverage (Y/N)? ").upper()
 
-        if extraLiabCovOpt != "Y" and extraLiabCovOpt != "N":
+        if extraLiabCovOpt == "":
+            print()
+            print("Data Entry Error - The liability coverage value is required.")
+            print()
+        elif extraLiabCovOpt != "Y" and extraLiabCovOpt != "N":
             print()
             print("Data Entry Error - The liability coverage value is invalid.")
             print()
@@ -158,9 +162,13 @@ def OneStopInsuranceCompany():
     while True:
         glassCovOpt = input("Glass replacement coverage (Y/N)? ").upper()
 
-        if glassCovOpt != "Y" and glassCovOpt != "N":
+        if glassCovOpt == "":
             print()
-            print("Data Entry Error - The glass coverage value is invalid.")
+            print("Data Entry Error - The glass replacement coverage value is required.")
+            print()
+        elif glassCovOpt != "Y" and glassCovOpt != "N":
+            print()
+            print("Data Entry Error - The glass replacement coverage value is invalid.")
             print()
         else:
             break
@@ -169,7 +177,11 @@ def OneStopInsuranceCompany():
     while True:
         loanerCarCovOpt = input("Loaner car coverage (Y/N)? ").upper()
 
-        if loanerCarCovOpt != "Y" and loanerCarCovOpt != "N":
+        if loanerCarCovOpt == "":
+            print()
+            print("Data Entry Error - The loaner car coverage value is required.")
+            print()
+        elif loanerCarCovOpt != "Y" and loanerCarCovOpt != "N":
             print()
             print("Data Entry Error - The loaner car coverage value is invalid.")
             print()
@@ -190,6 +202,35 @@ def OneStopInsuranceCompany():
             print()
         else:
             break
+    
+    # If the payment type is Down Pay, allow the user to enter a downpayment amount.
+    if pmntType == "Down Pay":
+
+        # Validate the downPayment amount.
+        while True:
+            downPayment = input("Please enter the downpayment amount: ")
+
+            if downPayment == "":
+                print()
+                print("Data Entry Error - The downpayment amount is required.")
+                print()
+            else:
+                try:
+                    downPayment = float(downPayment)
+
+                except:
+                    print()
+                    print("Data Entry Error - The downpayment amount must be numeric.")
+                    print()
+                else:
+                    if downPayment < 0:
+                        print()
+                        print("Data Entry Error - The downpayment amount must be positive.")
+                        print()
+                    else:
+                        break
+
+
 
     # TODO: Remove testing variables
     firstName = "John"
@@ -204,6 +245,76 @@ def OneStopInsuranceCompany():
     glassCovOpt = "N"
     loanerCarCovOpt = "N"
     pmntType = "Full"
+
+def ProcessClaim():
+    # Function that processes a claim. Returns the claim information entered as a list: [claimNumber, claimDate, claimAmt].
+
+    # Validate the claimNumber
+    while True:
+        claimNum = input("Please enter the claim number (#####): ")
+
+        if claimNum == "":
+            print()
+            print("Data Entry Error - The claim number is required.")
+            print()
+        elif len(claimNum) != 5:
+            print()
+            print("Data Entry Error - The claim number must be 5 digits long.")
+            print()
+        else:
+
+            # Check if the claim number only contains digits
+            isValidClaimNum = True
+            for char in claimNum:
+                if not char.isdigit():
+                    isValidClaimNum = False
+                    break
+
+            if not isValidClaimNum:
+                print()
+                print("Data Entry Error - The claim number must only contain digits.")
+                print()
+            else:
+                break
+
+    # Validate the claimDate
+    while True:
+        claimDate = input("Please enter the claim date (YYYY-MM-DD): ")
+
+        if claimDate == "":
+            print()
+            print("Data Entry Error - The claim date is required.")
+            print()
+        else:
+            try:
+                claimDate = DT.datetime.strptime(claimDate, "%Y-%m-%d")
+            except:
+                print()
+                print("Data Entry Error - The claim date is invalid.")
+                print()
+            else:
+                break
+
+    # Validate the claimAmt
+    while True:
+        claimAmt = input("Please enter the claim amount: ")
+
+        try:
+            claimAmt = float(claimAmt)
+        except:
+                print()
+                print("Data Entry Error - The claim amount must be numeric.")
+                print()
+        else:
+            if claimAmt <= 0:
+                print()
+                print("Data Entry Error - The claim amount must be over 0.")
+                print()
+            else:
+                break
+
+    return [claimNum, claimDate, claimAmt]
+
 
 
 def IsValidPostalCode(postalCode):
