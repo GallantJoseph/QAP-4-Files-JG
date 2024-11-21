@@ -10,19 +10,19 @@ def OneStopInsuranceCompany():
     # Main function for the One Stop Insurance Company
 
     # Define the constants
-    # TODO Read from file
-    POLICY_NUM: 1944
-    BASIC_PREMIUM: 869.00
-    DISC_ADD_CAR: 0.25
-    EXTRA_LIAB_COV_COST: 130.00
-    GLASS_COV_COST: 86.00
-    LOANER_CAR_COV_COST: 58.00
-    HST_RATE: 0.15
-    PROCESS_FEE: 39.99
+    POLICY_NUM = 1944
+    BASIC_PREMIUM = 869.00
+    DISC_ADD_CAR = 0.25
+    EXTRA_LIAB_COV_COST = 130.00
+    GLASS_COV_COST = 86.00
+    LOANER_CAR_COV_COST = 58.00
+    HST_RATE = 0.15
+    PROCESS_FEE = 39.99
     MAX_LIAB = 1000000.00
     PROV_LST = ["NL", "NS", "NB", "PE", "QC", "ON", "MB", "SK", "AB", "BC", "NT", "YT", "NV"]
-    PMNT_TYPE_LST = ["Full", "Monthly", "Down Pay"]
-    
+    PMNT_TYPE_LST = ["Full", "Monthly"]
+    CURR_DATE = DT.datetime.now()
+    """
     # Validate the firstName
     while True:
         firstName = input("Enter the first name: ").title()
@@ -141,7 +141,12 @@ def OneStopInsuranceCompany():
                 print("Data Entry Error - The number of cars must be a whole number.")
                 print()
             else:
-                break
+                if numInsuredCars < 1:
+                    print()
+                    print("Data Entry Error - The number of cars must be at least 1.")
+                    print()
+                else:
+                    break
 
     # Validate the extraLiabCovOpt
     while True:
@@ -190,7 +195,7 @@ def OneStopInsuranceCompany():
 
     # Validate the paymentType
     while True:
-        pmntType = input("Please enter the payment type (Full, Monthly, Down Pay): ").title()
+        pmntType = input("Please enter the payment type (Full, Monthly): ").title()
 
         if pmntType == "":
             print()
@@ -202,36 +207,57 @@ def OneStopInsuranceCompany():
             print()
         else:
             break
-    
-    # If the payment type is Down Pay, allow the user to enter a downpayment amount.
-    if pmntType == "Down Pay":
 
-        # Validate the downPayment amount.
+    # If the payment type is Monthly, ask the user if they want to enter a downpayment.
+    if pmntType == "Monthly":
+
+        # Validate the downPmntOpt
         while True:
-            downPayment = input("Please enter the downpayment amount: ")
+            downPmntOpt = input("Would you like to make a downpayment (Y/N)? ").upper()
 
-            if downPayment == "":
+            if downPmntOpt == "":
                 print()
-                print("Data Entry Error - The downpayment amount is required.")
+                print("Data Entry Error - A value is required.")
+                print()
+            if downPmntOpt != "Y" and downPmntOpt != "N":
+                print()
+                print("Data Entry Error - The value is invalid.")
                 print()
             else:
-                try:
-                    downPayment = float(downPayment)
+                break
+        
+        # If the user wants to add a downpayment amount
 
-                except:
+        if downPmntOpt == "Y":
+
+            # Validate the downPayment amount.
+            while True:
+                downPayment = input("Please enter the downpayment amount: ")
+
+                if downPayment == "":
                     print()
-                    print("Data Entry Error - The downpayment amount must be numeric.")
+                    print("Data Entry Error - The downpayment amount is required.")
                     print()
                 else:
-                    if downPayment < 0:
+                    try:
+                        downPayment = float(downPayment)
+
+                    except:
                         print()
-                        print("Data Entry Error - The downpayment amount must be positive.")
+                        print("Data Entry Error - The downpayment amount must be numeric.")
                         print()
                     else:
-                        break
+                        if downPayment < 0:
+                            print()
+                            print("Data Entry Error - The downpayment amount must be positive.")
+                            print()
+                        else:
+                            break
+        else:
+            downPayment = 0
 
 
-
+    """
     # TODO: Remove testing variables
     firstName = "John"
     lastName = "Doe"
@@ -240,11 +266,107 @@ def OneStopInsuranceCompany():
     prov = "NL"
     postalCode = "A1A2B2"
     phoneNum = "1234567890" # print(FV.FormatPhoneNum(phoneNum))
-    numInsuredCars = 1
+    numInsuredCars = 2
     extraLiabCovOpt = "Y"
     glassCovOpt = "N"
     loanerCarCovOpt = "N"
-    pmntType = "Full"
+    pmntType = "Monthly"
+    downPmntOpt = "Y"
+    downPayment = 150
+
+    # Calculations
+
+    # Insurance premiums calculations
+    insPremiums = BASIC_PREMIUM
+
+    # Discount for each additional car
+    if numInsuredCars > 1:
+        addCarPremiums = (numInsuredCars - 1) * (1 - DISC_ADD_CAR) * BASIC_PREMIUM
+        insPremiums += addCarPremiums
+
+    # Extra liability coverage cost
+    if extraLiabCovOpt == "Y":
+        extraLiabCost = EXTRA_LIAB_COV_COST * numInsuredCars
+    else:
+        extraLiabCost = 0
+
+    # Glass coverage cost
+    if glassCovOpt == "Y":
+        glassCovCost = GLASS_COV_COST * numInsuredCars
+    else:
+        glassCovCost = 0
+
+    # Loaner car cost
+    if loanerCarCovOpt == "Y":
+        loanerCarCost = LOANER_CAR_COV_COST * numInsuredCars
+    else:
+        loanerCarCost = 0
+
+    totExtraCosts = extraLiabCost + glassCovCost + loanerCarCost
+
+    totInsPremium = insPremiums + totExtraCosts
+    hst = totInsPremium * HST_RATE
+    totCost = totInsPremium + hst
+
+    # Payment type calculations
+    if pmntType == "Monthly": # 8 payments
+        processFee = PROCESS_FEE
+        monthlyPmnt = (totCost - downPayment + processFee) / 8
+
+
+    # Print the invoice
+
+    print()
+    print(f"One Stop Insurance Company")
+    print(f"------------------------------------------------")
+    print(f"Invoice                         Date: {FV.FormatDateS(CURR_DATE):<10s}")
+    print()
+    print(f"                                Policy Number: {POLICY_NUM:<4d}")
+    print()
+    print(f"Customer Information")
+    print(f"--------------------")
+    print()
+    print(f"First Name:                 {firstName}")
+    print(f"Last Name:                  {lastName}")
+    print(f"Street Address:             {strAddress}")
+    print(f"City:                       {city}")
+    print(f"Province:                   {prov:<2s}")
+    print(f"Postal Code:                {FV.FormatPostalCode(postalCode)}")
+    print(f"Phone Number:               {FV.FormatPhoneNum(phoneNum)}")
+    print()
+    print(f"Insurance Premiums Details")
+    print(f"--------------------------")
+    print()
+    print(f"Number of Insured Cars:     {numInsuredCars}")
+    print(f"Extra Liability Coverage:   {extraLiabCovOpt}")
+    print(f"Glass Replacement Coverage: {glassCovOpt}")
+    print(f"Loaner Car Coverage:        {loanerCarCovOpt}")
+    print(f"Payment Type:               {pmntType}")
+    if pmntType == "Monthly":
+        if downPmntOpt == "Y":
+            print(f"    Downpayment:            {FV.FormatDollar2(downPayment):>10s}")
+
+        print(f"    Monthly Payment:        {FV.FormatDollar2(monthlyPmnt):>10s}")
+
+    print()
+    print(f"Insurance Premiums")
+    print(f"------------------------------------------------")
+    print()
+    print(f"Base Premiums Cost:         {FV.FormatDollar2(BASIC_PREMIUM):>10s}")
+    if numInsuredCars > 1:
+        print(f"Cost for Additional Cars:   {FV.FormatDollar2(addCarPremiums):>10s}")
+
+    print(f"                            ----------")
+    print(f"                            {FV.FormatDollar2(insPremiums):>10s}")
+    print()
+    print(f"Extra Liability Cost:       {FV.FormatDollar2(extraLiabCost):>10s}")
+    print(f"Glass Coverage Cost:        {FV.FormatDollar2(glassCovCost):>10s}")
+    print(f"Loaner Car Coverage Cost:   {FV.FormatDollar2(loanerCarCost):>10s}")
+    print(f"                            ----------")
+    print(f"Total Extra Costs:          {FV.FormatDollar2(totExtraCosts):>10s}")
+
+    print()
+
 
 def ProcessClaim():
     # Function that processes a claim. Returns the claim information entered as a list: [claimNum, claimDate, claimAmt].
