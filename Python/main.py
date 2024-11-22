@@ -11,9 +11,19 @@ while True:
     # Define the variables
     claimsLst = []
 
+    # Run the main program
     OSF.OneStopInsuranceCompany()
 
+
+    # Heading for processing claims 
+    print()
+    print("Previous Claim Processing")
+    print("-------------------------")
+    print()
+
     while True:
+
+        # ProcessClaim returns a claim list element.
         claimsLst.append(OSF.ProcessClaim())
 
         # Validate option to process another claim
@@ -34,6 +44,7 @@ while True:
         if claimOpt == "N":
             break
     
+    # Print the claims from a list of claims.
     OSF.PrintClaims(claimsLst)
 
     # Validate option to run the program again.
