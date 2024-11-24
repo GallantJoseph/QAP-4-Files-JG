@@ -1,6 +1,6 @@
 # Desc.: Main program for the One Stop Insurance Company.
 # Author: Joseph Gallant
-# Dates: Nov. 15 2024 - 
+# Dates: Nov. 15 2024 - Nov. 24 2024
 
 # Import the libraries
 import one_stop_functions as OSF
@@ -19,7 +19,6 @@ while True:
     print()
     print("Previous Claim Processing")
     print("-------------------------")
-    print()
 
     while True:
 
@@ -63,4 +62,7 @@ while True:
             break
 
     if runAgainOpt == "N":
+        print()
+        print("*** Thank you for using our program. Have a nice day! ***")
+        print()
         break

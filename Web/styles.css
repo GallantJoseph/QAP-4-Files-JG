@@ -5,5 +5,46 @@
 #mainbox {
   width: 1000px;
   margin: auto;
+  background-color: lightgray;
+}
+
+table {
   background-color: lightblue;
+  margin: auto;
+}
+
+.marinayatchtable {
+  font-family: "Courier New", Courier, monospace;
+  color: navy;
+  border: 2px solid black;
+  width: 470px;
+  border-collapse: collapse;
+}
+
+.marinayatchtable th,
+.marinayatchtable td {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  width: 50%;
+  padding: 10px;
+}
+
+.phonetable {
+  margin: 0px;
+  width: 225px;
+}
+
+.phonetable th,
+.phonetable td {
+  border: none;
+  padding: 0px;
+  width: auto;
+}
+
+.textalignleft {
+  text-align: left;
+}
+
+.textalignright {
+  text-align: right;
 }

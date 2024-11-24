@@ -1,6 +1,6 @@
 # Desc.: Functions needed by the One Stop Insurance Company main program.
 # Author: Joseph Gallant
-# Dates: Nov. 15 2024 - 
+# Dates: Nov. 15 2024 - Nov. 24 2024
 
 # Import the libraries
 import datetime as DT
@@ -23,8 +23,14 @@ def OneStopInsuranceCompany():
     PROV_LST = ["NL", "NS", "NB", "PE", "QC", "ON", "MB", "SK", "AB", "BC", "NT", "YT", "NV"]
     PMNT_TYPE_LST = ["Full", "Monthly", "Down Pay"]
     CURR_DATE = DT.datetime.now()
-    
-    """
+
+    # Program header
+    print()
+    print(f"   One Stop Insurance Company - Data Entry   ")
+    print(f"---------------------------------------------")
+    print()
+
+
     # Validate the firstName
     while True:
         firstName = input("Enter the first name: ").title()
@@ -253,27 +259,6 @@ def OneStopInsuranceCompany():
                         break
     else:
         downPayment = 0
-    
-    """
-    # TODO: Remove testing variables
-    firstName = "John"
-    lastName = "Doe"
-    strAddress = "123 Main St."
-    city = "St. John's"
-    prov = "NL"
-    postalCode = "A1A2B2"
-    phoneNum = "1234567890" # print(FV.FormatPhoneNum(phoneNum))
-    numInsuredCars = 2
-    extraLiabCovOpt = "Y"
-    extraLiabCovMsg = "Yes"
-    glassCovOpt = "N"
-    glassCovMsg = "No"
-    loanerCarCovOpt = "Y"
-    loanerCarCovMsg = "Yes"
-    pmntType = "Down Pay"
-    downPayment = 0
-
-    
 
     # Calculations
 
@@ -309,8 +294,6 @@ def OneStopInsuranceCompany():
     hst = totInsPremiums * HST_RATE
     invTot = totInsPremiums + hst
 
-    # TODO Check calculations for monthly, downpayment, processing fee, etc.
-
     # Payment type calculations
     if pmntType == "Monthly" or pmntType == "Down Pay":
         totInsPremiums = totInsPremiums - downPayment
@@ -323,7 +306,7 @@ def OneStopInsuranceCompany():
     # Define the display messages for the different Y options
 
     print()
-    print(f"     One Stop Insurance Company Invoice      ")
+    print(f"    One Stop Insurance Company - Invoice     ")
     print(f"---------------------------------------------")
     print()
     print(f"Policy Number: {POLICY_NUM:<4d}         Date:  {FV.FormatDateS(CURR_DATE):>10s}")
@@ -346,13 +329,15 @@ def OneStopInsuranceCompany():
     print(f"Extra Liability Coverage:   {extraLiabCovMsg:<1s}")
     print(f"Glass Replacement Coverage: {glassCovMsg:<1s}")
     print(f"Loaner Car Coverage:        {loanerCarCovMsg:<1s}")
-    print(f"Maximum liability:          {FV.FormatDollar2(MAX_LIAB):>10s}")
+    print(f"Maximum Liability:          {FV.FormatDollar2(MAX_LIAB):>10s}")
     print()
     print(f"Payment Type:               {pmntType:<10s}")
 
     if pmntType == "Monthly" or pmntType == "Down Pay":
+        if pmntType == "Down Pay":
+            print(f"    Downpayment:            {FV.FormatDollar2(downPayment):>10s}")
         print(f"    Monthly Payment:        {FV.FormatDollar2(monthlyPmnt):>10s}")
-        print(f"        (Period of {MONTHLY_PMNTS} months.)")
+        print(f"        (Period of {MONTHLY_PMNTS} Months.)")
         print(f"    Note: A processing fee of {FV.FormatDollar2(PROCESS_FEE)} ")
         print(f"          is added to the total.")
 
@@ -380,7 +365,7 @@ def OneStopInsuranceCompany():
     print(f"Total Insurance Premiums:   {FV.FormatDollar2(totInsPremiumsBef):>10s}")
 
     if pmntType == "Down Pay" and downPayment > 0:
-        print(f"Downpayment:                {FV.FormatDollar2(downPayment):>10s}")
+        print(f"Downpayment:               -{FV.FormatDollar2(downPayment):>10s}")
         print(f"                            ----------")
         print(f"                            {FV.FormatDollar2(totInsPremiums):>10s}")
 
@@ -404,7 +389,7 @@ def ProcessClaim():
 
         if claimNum == "":
             print()
-            print("Data Entry Error - The claim number is required.")
+            print("Data Entry Error - A claim number is required.")
             print()
         elif len(claimNum) != 5:
             print()
