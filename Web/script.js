@@ -32,8 +32,8 @@ let strAddress = prompt("Enter the street address:");
 let city = prompt("Enter the city:");
 let prov = prompt("Enter the province (XX):").toUpperCase();
 let postCode = prompt("Enter the postal code (X#X#X#):").toUpperCase();
-let homePh = prompt("Enter the home phone number (##########):").toString();
-let cellPh = prompt("Enter the cell phone number: (##########)").toString();
+let homePh = prompt("Enter the home phone number (##########):");
+let cellPh = prompt("Enter the cell phone number: (##########)");
 let memType = prompt(
   "Enter the membership type (S = Standard, E = Executive):"
 ).toUpperCase();
