@@ -1,7 +1,7 @@
 /*
     Desc.: This program generates membership receipts for the St. John's Marina & Yacht Club
     Author: Joseph Gallant
-    Dates: Nov. 15 2024 - Nov. 24 2024
+    Dates: Nov. 15 2024 - Nov. 29 2024
 */
 
 // Define the constants
