@@ -25,41 +25,23 @@ const CUR_2_FORMAT = new Intl.NumberFormat("en-CA", {
 });
 
 // Gather user data
-/*
 let siteNum = parseInt(prompt("Enter the site number (1-100): "));
 let firstName = prompt("Enter the first name:");
 let lastName = prompt("Enter the last name:");
 let strAddress = prompt("Enter the street address:");
 let city = prompt("Enter the city:");
-let prov = prompt("Enter the province:").toUpperCase();
-let postCode = prompt("Enter the postal code:");
-let homePh = prompt("Enter the home phone number:").toString();
-let cellPh = prompt("Enter the cell phone number:").toString();
+let prov = prompt("Enter the province (XX):").toUpperCase();
+let postCode = prompt("Enter the postal code (X#X#X#):").toUpperCase();
+let homePh = prompt("Enter the home phone number (##########):").toString();
+let cellPh = prompt("Enter the cell phone number: (##########)").toString();
 let memType = prompt(
   "Enter the membership type (S = Standard, E = Executive):"
 ).toUpperCase();
 let numAltMem = parseInt(prompt("Enter the number of alternate members:"));
 let wklySiteClean = prompt("Weekly site cleaning (Y/N)?").toUpperCase();
 let vidSurveil = prompt("Video surveillance (Y/N)?").toUpperCase();
-*/
-
-// TODO Remove testing variables
-let siteNum = 2;
-let firstName = "First";
-let lastName = "Last";
-let strAddress = "123 Main St.";
-let city = "St. John's";
-let prov = "NL";
-let postCode = "A1A2B2";
-let homePh = "0123456789";
-let cellPh = "1234567890";
-let memType = "S";
-let numAltMem = 2;
-let wklySiteClean = "Y";
-let vidSurveil = "Y";
 
 //  Calculate the site charge including the number of alternate members
-
 let siteChrg = EVEN_SITE_COST;
 
 if (siteNum % 2 != 0) {
