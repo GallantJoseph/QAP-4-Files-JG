@@ -1,13 +1,13 @@
 # Desc.: Functions needed by the One Stop Insurance Company main program.
 # Author: Joseph Gallant
-# Dates: Nov. 15 2024 - Nov. 24 2024
+# Dates: Nov. 15, 2024 - Nov. 29, 2024
 
 # Import the libraries
 import datetime as DT
 import format_values as FV
 
 def OneStopInsuranceCompany():
-    # Main function for the One Stop Insurance Company
+    """Main function for the One Stop Insurance Company"""
 
     # Define the constants
     POLICY_NUM = 1944
@@ -24,7 +24,7 @@ def OneStopInsuranceCompany():
     PMNT_TYPE_LST = ["Full", "Monthly", "Down Pay"]
     CURR_DATE = DT.datetime.now()
 
-    # Program header
+    # Print the headings
     print()
     print(f"   One Stop Insurance Company - Data Entry   ")
     print(f"---------------------------------------------")
@@ -98,17 +98,11 @@ def OneStopInsuranceCompany():
     while True:
         postalCode = input("Enter the postal code (X#X#X#): ").upper()
 
-        if postalCode == "":
+        isValidPostalCode, message = ValidatePostalCode(postalCode)
+
+        if not isValidPostalCode:
             print()
-            print("Data Entry Error - A postal code is required.")
-            print()
-        elif len(postalCode) != 6:
-            print()
-            print("Data Entry Error - The postal code must be 6 characters long.")
-            print()
-        elif not IsValidPostalCode(postalCode):
-            print()
-            print("Data Entry Error - The postal code is invalid. Must be in X#X#X# format.")
+            print(message)
             print()
         else:
             break
@@ -117,21 +111,14 @@ def OneStopInsuranceCompany():
     while True:
         phoneNum = input("Enter the phone number (##########): ").upper()
 
-        if phoneNum == "":
+        isValidPhoneNum, message = ValidatePhoneNumber(phoneNum)
+
+        if not isValidPhoneNum:
             print()
-            print("Data Entry Error - A phone number is required.")
-            print()
-        elif len(phoneNum) != 10:
-            print()
-            print("Data Entry Error - The phone number must be 10 digits long.")
-            print()
-        elif not IsValidPhoneNum(phoneNum):
-            print()
-            print("Data Entry Error - The phone number is invalid. Must be in ########## format.")
+            print(message)
             print()
         else:
             break
-    
 
     # Validate the numInsuredCars
     while True:
@@ -251,9 +238,9 @@ def OneStopInsuranceCompany():
                     print("Data Entry Error - The downpayment amount must be numeric.")
                     print()
                 else:
-                    if downPayment < 0:
+                    if downPayment <= 0:
                         print()
-                        print("Data Entry Error - The downpayment amount must be positive.")
+                        print("Data Entry Error - The downpayment amount must be over 0.")
                         print()
                     else:
                         break
@@ -302,8 +289,6 @@ def OneStopInsuranceCompany():
         monthlyPmnt = (invTot + PROCESS_FEE) / MONTHLY_PMNTS
 
     # Print the invoice
-
-    # Define the display messages for the different Y options
 
     print()
     print(f"    One Stop Insurance Company - Invoice     ")
@@ -380,7 +365,7 @@ def OneStopInsuranceCompany():
 
 
 def ProcessClaim():
-    # Function that processes a claim. Returns the claim information entered as a list: [claimNum, claimDate, claimAmt].
+    """Function that processes a claim. Returns the claim information entered as a list: [claimNum, claimDate, claimAmt]."""
 
     print()
     # Validate the claimNum
@@ -450,9 +435,9 @@ def ProcessClaim():
     return [claimNum, claimDate, claimAmt]
 
 def PrintClaims(claimsLst):
-    # Function that prints out all the claims from a claimsLst. Input as [claimNum, claimDate, claimAmt].
+    """Function that prints out all the claims from a claimsLst. Input as [claimNum, claimDate, claimAmt]."""
 
-    # Print the header
+    # Print the headings
 
     print()
     print(f"       Previous Claims Listing        ")
@@ -471,35 +456,58 @@ def PrintClaims(claimsLst):
     print()
 
 
-def IsValidPostalCode(postalCode):
-    # Function that validates a postal code with no spacing (X#X#X#).
+def ValidatePostalCode(postalCode):
+    """ Function that validates a postal code with no spacing (X#X#X#). Returns a boolean value and the error message."""
 
-    # Define the constants
+    # Initialize the variables
+    isValidPostalCode = True
+    message = ""
 
-    # Check if the character in every position is correct.
-    validPostalCode = True
-    for i in range(0, 6):
-        if i % 2 == 0: # even position (letter)
-            if not postalCode[i].isalpha():
-                validPostalCode = False
+    if postalCode == "":
+        isValidPostalCode = False
+        message = "Data Entry Error - A postal code is required."
+
+    elif len(postalCode) != 6:
+        isValidPostalCode = False
+        message = "Data Entry Error - The postal code must be 6 characters long."
+    else:
+        # Verifies that the character in every position is correct.
+        for i in range(0, 6):
+            if i % 2 == 0: # even position (letter)
+                if not postalCode[i].isalpha():
+                    isValidPostalCode = False
+                    break
+            else: # odd position (digit)
+                if not postalCode[i].isdigit():
+                    isValidPostalCode = False
+                    break
+
+        if not isValidPostalCode:
+            message = "Data Entry Error - The postal code is invalid. Must be in X#X#X# format."
+
+    return isValidPostalCode, message
+
+def ValidatePhoneNumber(phoneNum):
+    """Function that validates a phone number entered as 10 characters with no spacing."""
+
+    # Initialize the variables
+    isValidPhoneNum = True
+    message = ""
+
+    if phoneNum == "":
+        isValidPhoneNum = False
+        message = "Data Entry Error - A phone number is required."
+    elif len(phoneNum) != 10:
+        isValidPhoneNum = False
+        message = "Data Entry Error - The phone number must be 10 digits long."
+    else:
+        # Verifies that each character is a digit. If not, the phone number is invalid and
+        # it breaks out of the loop
+
+        for character in phoneNum:
+            if not character.isdigit():
+                isValidPhoneNum = False
+                message = "Data Entry Error - The phone number is invalid. Must be in ########## format."
                 break
-        else: # odd position (digit)
-            if not postalCode[i].isdigit():
-                validPostalCode = False
-                break
 
-    return validPostalCode
-
-def IsValidPhoneNum(phoneNum):
-    # Function that validates a phone number entered as 10 characters with no spacing.
-
-    # Verifies that each character is a digit. If not, the phone number is invalid and
-    # it breaks out of the loop
-
-    validPhoneNum = True
-    for character in phoneNum:
-        if not character.isdigit():
-            validPhoneNum = False
-            break
-
-    return validPhoneNum
+    return isValidPhoneNum, message
