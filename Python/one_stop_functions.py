@@ -286,7 +286,7 @@ def OneStopInsuranceCompany():
         totInsPremiums = totInsPremiums - downPayment
         hst = totInsPremiums * HST_RATE
         invTot = totInsPremiums + hst + PROCESS_FEE
-        monthlyPmnt = (invTot + PROCESS_FEE) / MONTHLY_PMNTS
+        monthlyPmnt = invTot / MONTHLY_PMNTS
 
     # Print the invoice
 
